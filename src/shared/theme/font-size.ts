@@ -1,7 +1,7 @@
 export default {
-  verySmall: 10,
-  small: 14,
-  medium: 17,
-  large: 24,
-  veryLarge: 30
+  verySmall: 8,
+  small: 10,
+  medium: 16,
+  large: 22,
+  veryLarge: 35,
 };

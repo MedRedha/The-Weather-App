@@ -16,7 +16,6 @@ export default function SplashScreen() {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('NAVIGATE');
       // @ts-ignore
       navigation.replace(SCREENS.HOME);
     }, 3000);

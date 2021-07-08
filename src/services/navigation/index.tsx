@@ -94,7 +94,7 @@ const Navigation = () => {
         isReadyRef.current = true;
       }}>
       <SafeAreaView style={{flex: 0, backgroundColor: theme.primary}} />
-      <SafeAreaView style={{flex: 1, backgroundColor: theme.contrast}}>
+      <SafeAreaView style={{flex: 1, backgroundColor: theme.primary}}>
         <Stack.Navigator
           initialRouteName={SCREENS.SPLASH}
           screenOptions={() => ({
@@ -115,7 +115,7 @@ const Navigation = () => {
           <Stack.Screen
             options={{
               title: 'Home',
-              headerShown: true,
+              headerShown: false,
               cardStyleInterpolator: forFade, // OR CardStyleInterpolators.PRESETS-ABOVE
               // ...TransitionPresets.ModalPresentationIOS, // OR TransitionPresets.PRESETS-ABOVE
             }}

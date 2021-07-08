@@ -32,7 +32,7 @@ export default {
     gray: '#636e72',
     white: '#ffffff',
     linkBlue: '#0645AD',
-    blue: '#6EC7fd',
+    blue: '#0378FF',
     green: '#4dd02c',
     yellow: '#ffc800',
     orange: '#F9572C',
