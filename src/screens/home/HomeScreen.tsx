@@ -20,8 +20,7 @@ export default function HomeScreen() {
       style={{
         ...styles.container,
       }}>
-
-<SearchBar/>
+        <SearchBar/>
     </LinearGradient>
   );
 }
