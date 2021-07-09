@@ -7,7 +7,7 @@ import LottieView from 'lottie-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {ThemeContext} from '../../hooks/useTheme';
-import {SCREENS} from '../../shared/constants';
+import {SCREENS} from '../../services/constants';
 import styles from './SplashScreen.style';
 
 export default function SplashScreen() {

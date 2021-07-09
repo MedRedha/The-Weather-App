@@ -5,7 +5,7 @@ import {useContext} from 'react';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {SafeAreaView} from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 
@@ -13,7 +13,7 @@ import {ThemeContext} from '../../hooks/useTheme';
 import HomeScreen from '../../screens/home/HomeScreen';
 import SearchScreen from '../../screens/search/SearchScreen';
 import SplashScreen from '../../screens/splashScreen/SplashScreen';
-import {SCREENS} from '../../shared/constants';
+import {SCREENS} from '../constants';
 import {navigationRef, isReadyRef} from './RootNavigation';
 
 const Tab = createBottomTabNavigator();

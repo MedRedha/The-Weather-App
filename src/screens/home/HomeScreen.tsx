@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {useContext, useEffect, useRef, useState} from 'react';
 
-import {useNavigation} from '@react-navigation/native';
 import {
   Keyboard,
   SafeAreaView,
@@ -13,12 +12,27 @@ import {
 import * as Animatable from 'react-native-animatable';
 import {SearchBar} from 'react-native-elements';
 import {Button} from 'react-native-ios-kit';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {ThemeContext} from '../../hooks/useTheme';
+import {getCurrentWeather} from '../../services/actions';
 import styles from './HomeScreen.style';
 
-export default function HomeScreen() {
-  const navigation = useNavigation();
+const mapStateToProps = (state) => ({
+  hasCity: state.location.hasCity,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      updateCity: (action, value) => dispatch({type: action, value}),
+      getCurrentWeather,
+    },
+    dispatch
+  );
+
+function HomeScreen({getCurrentWeather}) {
   const {theme}: any = useContext(ThemeContext);
   const [search, setSearch] = useState('');
   const searchRef: React.MutableRefObject<undefined> = useRef();
@@ -27,6 +41,11 @@ export default function HomeScreen() {
     // @ts-ignore
     searchRef?.current.focus();
   });
+
+  const getWeather = async () => {
+    const result = await getCurrentWeather();
+    console.log('----', result);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -62,7 +81,8 @@ export default function HomeScreen() {
               <Button
                 rounded
                 style={{...styles.goButton, display: !search && 'none'}}
-                innerStyle={styles.buttonTitle}>
+                innerStyle={styles.buttonTitle}
+                onPress={getWeather}>
                 Go
               </Button>
             </Animatable.View>
@@ -72,3 +92,5 @@ export default function HomeScreen() {
     </TouchableWithoutFeedback>
   );
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
