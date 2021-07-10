@@ -4,11 +4,13 @@ import {
   WEATHER_FETCH_ERROR,
   WEATHER_FETCH_START,
   WEATHER_FETCH_SUCCESS,
+  SEARCH_HISTORY,
 } from '../constants';
 
 const initialState = {
   hasCity: false,
   selectedCity: '',
+  searchHistory: [],
   weather: {
     isLoading: false,
     info: {},
@@ -27,6 +29,11 @@ function weatherReducer(state = initialState, action) {
       return {
         ...state,
         selectedCity: action.value,
+      };
+    case SEARCH_HISTORY:
+      return {
+        ...state,
+        searchHistory: action.value,
       };
     case WEATHER_FETCH_START:
       return {

@@ -22,7 +22,10 @@ function HomeScreen() {
   const {theme}: any = useContext(ThemeContext);
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}>
       <SafeAreaView
         style={{...styles.safeArea, backgroundColor: theme.primary}}>
         <View style={styles.mainView}>

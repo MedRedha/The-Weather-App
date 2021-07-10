@@ -5,30 +5,51 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {TouchableOpacity, View, Text} from 'react-native';
 import {SearchBar} from 'react-native-elements';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Icon} from 'react-native-ios-kit';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {ThemeContext} from '../../hooks/useTheme';
 import {
   GOOGLE_PLACES_API,
   GOOGLE_PLACES_API_KEY,
 } from '../../services/api/api.constant';
-import {SCREENS} from '../../services/constants';
+import {SCREENS, SEARCH_HISTORY} from '../../services/constants';
 import {fontSize} from '../../shared/theme';
 import styles from './SearchBar.style';
 
-export default function WeatherSearchBar() {
+const mapStateToProps = (state) => ({
+  searchHistory: state.data.searchHistory,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      recentSearch,
+    },
+    dispatch
+  );
+
+const recentSearch = (action, value) => (dispatch) => {
+  dispatch({type: action, value});
+};
+
+function WeatherSearchBar({searchHistory, recentSearch}) {
   const navigation = useNavigation();
   const searchRef: React.MutableRefObject<undefined> = useRef();
   const {theme}: any = useContext(ThemeContext);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [focused, setFocused] = React.useState(false);
 
   useEffect(() => {
     // @ts-ignore
     searchRef?.current.focus();
-  });
+  }, []);
 
+  const onFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
   const getSuggestions = async (text) => {
     setSearch(text);
     if (text.length === 0) {
@@ -45,6 +66,16 @@ export default function WeatherSearchBar() {
     }
     setTimeout(() => setLoading(false), 500);
   };
+  const onPress = (item) => {
+    // recentSearch(SEARCH_HISTORY, []);
+    recentSearch(SEARCH_HISTORY, [
+      item?.structured_formatting?.main_text,
+      ...searchHistory.slice(0, 3),
+    ]);
+    navigation.navigate(SCREENS.WEATHER_INFO, {
+      city: item?.structured_formatting?.main_text,
+    });
+  };
 
   return (
     <View
@@ -54,8 +85,10 @@ export default function WeatherSearchBar() {
       }}>
       <SearchBar
         round
-        autofocus
+        autofocus={false}
         autoCorrect={false}
+        onFocus={onFocus}
+        onBlur={onBlur}
         onClear={() => setSearch('')}
         onChangeText={(text) => getSuggestions(text)}
         value={search}
@@ -71,28 +104,50 @@ export default function WeatherSearchBar() {
         placeholderTextColor={theme.grey}
         containerStyle={styles.searchBar}
       />
-      {suggestions.length > 0 && (
+      {searchHistory.length > 0 && focused && (
         <>
           <View
             style={{height: 0.25, width: '95%', backgroundColor: theme.divider}}
           />
-          <View
-            style={{width: '100%', alignItems: 'center', paddingVertical: 8}}>
+          <View style={styles.searchHistoryInnerContainer}>
+            {searchHistory.map((items) => (
+              <View
+                style={{
+                  ...styles.searchHistory,
+                  paddingBottom: suggestions.length === 0 && 8,
+                }}>
+                <Icon
+                  name='ios-time-outline'
+                  size={18}
+                  color={theme.blue}
+                  style={{marginLeft: 43}}
+                />
+                <TouchableOpacity
+                  style={styles.searchHistoryContainer}
+                  onPress={() => console.log('PRESSED')}>
+                  <Text numberOfLines={1} style={styles.historyText}>
+                    {items}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        </>
+      )}
+      {suggestions.length > 0 && (
+        <>
+          <View style={styles.suggestionsInnerContainer}>
             {suggestions.map((item) => (
               <View style={styles.suggestions}>
-                <MaterialCommunityIcons
-                  name='history'
+                <Icon
+                  name='ios-search'
                   size={18}
                   color={theme.divider}
                   style={{marginLeft: 43}}
                 />
                 <TouchableOpacity
                   style={styles.suggestionsContainer}
-                  onPress={() =>
-                    navigation.navigate(SCREENS.WEATHER_INFO, {
-                      city: item.structured_formatting.main_text,
-                    })
-                  }>
+                  onPress={() => onPress(item)}>
                   <Text numberOfLines={1} style={styles.suggestionText}>
                     {item.description}
                   </Text>
@@ -105,3 +160,5 @@ export default function WeatherSearchBar() {
     </View>
   );
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherSearchBar);
