@@ -10,6 +10,8 @@ interface Style {
   suggestionsContainer: ViewStyle;
   suggestionsInnerContainer: ViewStyle;
   removeButton: ViewStyle;
+  goButton: ViewStyle;
+  buttonTitle: TextStyle;
   suggestionText: TextStyle;
   historyText: TextStyle;
 }
@@ -53,6 +55,19 @@ export default StyleSheet.create<Style>({
     overflow: 'hidden',
     color: colors.dark.text,
     fontSize: fontSize.medium,
+  },
+  goButton: {
+    height: 50,
+    marginBottom: 40,
+    width: ScreenWidth * 0.95,
+    alignSelf: 'center',
+    backgroundColor: colors.dark.blue,
+  },
+  buttonTitle: {
+    fontSize: fontSize.large,
+    fontFamily: 'ProductSans-Bold',
+    color: colors.dark.text,
+    fontWeight: '400',
   },
   historyText: {
     width: '80%',

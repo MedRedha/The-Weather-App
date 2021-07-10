@@ -3,7 +3,8 @@ import {useContext, useEffect, useRef, useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {TouchableOpacity, View, Text} from 'react-native';
+import {TouchableOpacity, View, Text, KeyboardAvoidingView} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import {SearchBar} from 'react-native-elements';
 import {Icon, Button} from 'react-native-ios-kit';
 import {connect} from 'react-redux';
@@ -34,13 +35,13 @@ const recentSearch = (action, value) => (dispatch) => {
   dispatch({type: action, value});
 };
 
-function WeatherSearchBar({searchHistory, recentSearch, search, setSearch}) {
+function WeatherSearchBar({searchHistory, recentSearch}) {
   const navigation = useNavigation();
   const searchRef: React.MutableRefObject<undefined> = useRef();
   const {theme}: any = useContext(ThemeContext);
+  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
-  const [newHistory, setNewHistory] = useState([]);
   const [focused, setFocused] = React.useState(false);
 
   useEffect(() => {
@@ -84,112 +85,132 @@ function WeatherSearchBar({searchHistory, recentSearch, search, setSearch}) {
     onCityPress(item?.structured_formatting?.main_text);
   };
 
-  const onRemovePress = (index) => {
-    setNewHistory(searchHistory);
-    newHistory.splice(index, 1);
-    recentSearch(SEARCH_HISTORY, newHistory);
+  const onRemovePress = (item) => {
+    recentSearch(
+      SEARCH_HISTORY,
+      searchHistory.filter((historyItem) => historyItem !== item)
+    );
   };
 
   return (
     <View
-      style={{
-        ...styles.main,
-        backgroundColor: theme.darkGray,
-      }}>
-      <SearchBar
-        round
-        autofocus={false}
-        autoCorrect={false}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onClear={() => setSearch('')}
-        enablesReturnKeyAutomatically={false}
-        onChangeText={(text) => getSuggestions(text)}
-        value={search}
-        ref={searchRef}
-        showLoading={loading}
-        returnKeyType='search'
-        searchIcon={{size: 24}}
-        placeholder='Enter your city'
-        inputStyle={{
-          color: theme.text,
-          fontSize: fontSize.medium,
-        }}
-        placeholderTextColor={theme.grey}
-        containerStyle={styles.searchBar}
-      />
-      {suggestions.length > 0 ||
-        (focused && (
+      style={{flex: 1, justifyContent: 'space-between', alignItems: 'center'}}>
+      <View
+        style={{
+          ...styles.main,
+          backgroundColor: theme.darkGray,
+        }}>
+        <SearchBar
+          round
+          autofocus={false}
+          autoCorrect={false}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onClear={() => setSearch('')}
+          enablesReturnKeyAutomatically={false}
+          onChangeText={(text) => getSuggestions(text)}
+          value={search}
+          ref={searchRef}
+          showLoading={loading}
+          returnKeyType='search'
+          searchIcon={{size: 24}}
+          placeholder='Enter your city'
+          inputStyle={{
+            color: theme.text,
+            fontSize: fontSize.medium,
+          }}
+          placeholderTextColor={theme.grey}
+          containerStyle={styles.searchBar}
+        />
+        {suggestions.length > 0 ||
+          (focused && (
+            <>
+              <View
+                style={{
+                  height: searchHistory.length > 0 && 0.25,
+                  width: '95%',
+                  backgroundColor: theme.divider,
+                }}
+              />
+              <View
+                style={{
+                  ...styles.suggestionsInnerContainer,
+                  paddingVertical: searchHistory.length > 0 && 8,
+                }}>
+                {searchHistory.map((item) => (
+                  <View style={styles.suggestions}>
+                    <Icon
+                      name='ios-time-outline'
+                      size={18}
+                      color={theme.divider}
+                      style={{marginLeft: 43}}
+                    />
+                    <TouchableOpacity
+                      style={{...styles.suggestionsContainer, width: '82%'}}
+                      onPress={() => onCityPress(item)}>
+                      <Text numberOfLines={1} style={styles.historyText}>
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                    <Button
+                      inline
+                      rounded
+                      style={styles.removeButton}
+                      onPress={() => onRemovePress(item)}>
+                      Remove
+                    </Button>
+                  </View>
+                ))}
+              </View>
+            </>
+          ))}
+        {suggestions.length > 0 && (
           <>
             <View
               style={{
-                height: searchHistory.length > 0 && 0.25,
+                height: 0.25,
                 width: '95%',
                 backgroundColor: theme.divider,
               }}
             />
-            <View
-              style={{
-                ...styles.suggestionsInnerContainer,
-                paddingVertical: searchHistory.length > 0 && 8,
-              }}>
-              {searchHistory.map((items, index) => (
+            <View style={styles.suggestionsInnerContainer}>
+              {suggestions.map((item) => (
                 <View style={styles.suggestions}>
                   <Icon
-                    name='ios-time-outline'
+                    name='ios-search'
                     size={18}
                     color={theme.divider}
                     style={{marginLeft: 43}}
                   />
                   <TouchableOpacity
-                    style={{...styles.suggestionsContainer, width: '82%'}}
-                    onPress={() => onCityPress(items)}>
-                    <Text numberOfLines={1} style={styles.historyText}>
-                      {items}
+                    style={styles.suggestionsContainer}
+                    onPress={() => onPress(item)}>
+                    <Text numberOfLines={1} style={styles.suggestionText}>
+                      {item.description}
                     </Text>
                   </TouchableOpacity>
-                  <Button
-                    inline
-                    rounded
-                    style={styles.removeButton}
-                    onPress={() => onRemovePress(index)}>
-                    Remove
-                  </Button>
                 </View>
               ))}
             </View>
           </>
-        ))}
-      {suggestions.length > 0 && (
-        <>
-          <View
-            style={{
-              height: 0.25,
-              width: '95%',
-              backgroundColor: theme.divider,
-            }}
-          />
-          <View style={styles.suggestionsInnerContainer}>
-            {suggestions.map((item) => (
-              <View style={styles.suggestions}>
-                <Icon
-                  name='ios-search'
-                  size={18}
-                  color={theme.divider}
-                  style={{marginLeft: 43}}
-                />
-                <TouchableOpacity
-                  style={styles.suggestionsContainer}
-                  onPress={() => onPress(item)}>
-                  <Text numberOfLines={1} style={styles.suggestionText}>
-                    {item.description}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
-        </>
-      )}
+        )}
+      </View>
+      <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={150}>
+        <Animatable.View
+          animation={search !== '' && 'fadeIn'}
+          easing='ease'
+          useNativeDriver
+          style={{alignItems: 'flex-end'}}
+          iterationCount={1}>
+          <Button
+            rounded
+            style={{...styles.goButton, display: search === '' && 'none'}}
+            innerStyle={styles.buttonTitle}
+            onPress={() => onPress(suggestions[0])}>
+            Go
+          </Button>
+        </Animatable.View>
+      </KeyboardAvoidingView>
     </View>
   );
 }

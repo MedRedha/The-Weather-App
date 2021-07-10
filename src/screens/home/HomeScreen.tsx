@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useContext, useState} from 'react';
+import {useContext} from 'react';
 
 import {
   Keyboard,
@@ -7,10 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
   Text,
-  KeyboardAvoidingView,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import {Button} from 'react-native-ios-kit';
 import {connect} from 'react-redux';
 
 import WeatherSearchBar from '../../components/SearchBar';
@@ -23,7 +20,6 @@ const mapStateToProps = (state) => ({
 
 function HomeScreen() {
   const {theme}: any = useContext(ThemeContext);
-  const [search, setSearch] = useState('');
 
   return (
     <TouchableWithoutFeedback
@@ -39,22 +35,8 @@ function HomeScreen() {
                 Relative Weather
               </Text>
             </View>
-            <WeatherSearchBar search={search} setSearch={setSearch} />
+            <WeatherSearchBar />
           </View>
-          <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
-            <Animatable.View
-              animation={search === '' ? 'fadeOut' : 'fadeIn'}
-              easing='ease'
-              useNativeDriver
-              iterationCount={1}>
-              <Button
-                rounded
-                style={{...styles.goButton}}
-                innerStyle={styles.buttonTitle}>
-                Go
-              </Button>
-            </Animatable.View>
-          </KeyboardAvoidingView>
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
