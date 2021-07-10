@@ -5,19 +5,41 @@ import {useNavigation} from '@react-navigation/native';
 // @ts-ignore
 import LottieView from 'lottie-react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {connect} from 'react-redux';
 
 import {ThemeContext} from '../../hooks/useTheme';
 import {SCREENS} from '../../services/constants';
 import styles from './SplashScreen.style';
 
-export default function SplashScreen() {
+const mapStateToProps = (state) => ({
+  weather: state.data.weather,
+  lastFetch: state.data.lastFetch,
+});
+
+function SplashScreen({weather, lastFetch}) {
   const {theme}: any = useContext(ThemeContext);
   const navigation = useNavigation();
 
   useEffect(() => {
     setTimeout(() => {
-      // @ts-ignore
-      navigation.replace(SCREENS.HOME);
+      if (lastFetch) {
+        const now: any = new Date();
+        const diffTime = Math.abs(lastFetch - now);
+        const diffMin = Math.ceil(diffTime / (1000 * 60));
+
+        if (diffMin < 60) {
+          // @ts-ignore
+          navigation.replace(SCREENS.WEATHER_INFO);
+        } else {
+          // @ts-ignore
+          navigation.replace(SCREENS.WEATHER_INFO, {
+            city: weather?.info?.data[0]?.city_name,
+          });
+        }
+      } else {
+        // @ts-ignore
+        navigation.replace(SCREENS.HOME);
+      }
     }, 3000);
   }, []);
 
@@ -41,3 +63,5 @@ export default function SplashScreen() {
     </LinearGradient>
   );
 }
+
+export default connect(mapStateToProps)(SplashScreen);

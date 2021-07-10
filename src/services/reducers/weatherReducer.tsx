@@ -1,6 +1,4 @@
 import {
-  HAS_CITY,
-  SELECTED_CITY,
   WEATHER_FETCH_ERROR,
   WEATHER_FETCH_START,
   WEATHER_FETCH_SUCCESS,
@@ -8,28 +6,18 @@ import {
 } from '../constants';
 
 const initialState = {
-  hasCity: false,
-  selectedCity: '',
+  lastFetch: null,
   searchHistory: [],
   weather: {
     isLoading: false,
     info: {},
+    history: {},
     error: null,
   },
 };
 
 function weatherReducer(state = initialState, action) {
   switch (action.type) {
-    case HAS_CITY:
-      return {
-        ...state,
-        hasCity: action.value,
-      };
-    case SELECTED_CITY:
-      return {
-        ...state,
-        selectedCity: action.value,
-      };
     case SEARCH_HISTORY:
       return {
         ...state,
@@ -46,9 +34,11 @@ function weatherReducer(state = initialState, action) {
     case WEATHER_FETCH_SUCCESS:
       return {
         ...state,
+        lastFetch: new Date(),
         weather: {
           isLoading: false,
-          info: action.value,
+          info: action.info,
+          history: action.history,
           error: null,
         },
       };

@@ -11,7 +11,6 @@ import {getCurrentWeather} from '../../services/actions';
 import styles from './WeatherInfo.style';
 
 const mapStateToProps = (state) => ({
-  hasCity: state.data.hasCity,
   weather: state.data.weather,
 });
 
@@ -32,14 +31,24 @@ function WeatherInfo({route, navigation, weather, getCurrentWeather}) {
   const {isLoading, error} = weather;
 
   useEffect(() => {
-    getCurrentWeather(city);
+    if (city) {
+      getCurrentWeather(city);
+    } else {
+      navigation.setOptions({title: weather?.info?.data[0]?.city_name});
+    }
   }, []);
 
   if (isLoading) {
     return (
       <SafeAreaView
         style={{...styles.safeArea, backgroundColor: theme.primary}}>
-        <Spinner animating size='large' color={theme.gray} />
+        <Spinner
+          animating
+          size='large'
+          theme={{
+            primaryColor: theme.lightGray,
+          }}
+        />
       </SafeAreaView>
     );
   }
@@ -48,7 +57,7 @@ function WeatherInfo({route, navigation, weather, getCurrentWeather}) {
     return (
       <SafeAreaView
         style={{...styles.safeArea, backgroundColor: theme.primary}}>
-        <Text style={{color: theme.text, fontSize: 26}}>{error}</Text>
+        <Text style={{color: theme.text, fontSize: 26}}>error</Text>
       </SafeAreaView>
     );
   }

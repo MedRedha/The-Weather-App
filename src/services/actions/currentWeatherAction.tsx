@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-import {API_KEY, BASE_URL, CURRENT_WEATHER_API} from '../api/api.constant';
+import {
+  API_KEY,
+  BASE_URL,
+  CURRENT_WEATHER_API,
+  HISTORICAL_WEATHER_API,
+} from '../api/api.constant';
 import {
   WEATHER_FETCH_SUCCESS,
   WEATHER_FETCH_START,
@@ -10,15 +15,41 @@ import {
 export const getCurrentWeather = (city) => async (dispatch) => {
   dispatch({type: WEATHER_FETCH_START});
   try {
-    const res = await axios.get(BASE_URL + CURRENT_WEATHER_API, {
+    const [{data: info}, {data: history}] = await Promise.all([
+      getWeatherInfo(city),
+      getWeatherHistory(city),
+    ]);
+
+    dispatch({type: WEATHER_FETCH_SUCCESS, info, history});
+  } catch (e) {
+    dispatch({type: WEATHER_FETCH_ERROR, value: true});
+  }
+};
+const getWeatherInfo = (city) => {
+  try {
+    return axios.get(BASE_URL + CURRENT_WEATHER_API, {
       params: {
         key: API_KEY,
         city,
       },
     });
-    dispatch({type: WEATHER_FETCH_SUCCESS, value: res.data});
-  } catch (error) {
-    dispatch({type: WEATHER_FETCH_ERROR, value: error.data});
-    return error;
+  } catch (err) {
+    return err;
+  }
+};
+
+const getWeatherHistory = (city) => {
+  try {
+    return axios.get(BASE_URL + HISTORICAL_WEATHER_API, {
+      params: {
+        key: API_KEY,
+        city,
+        start_date: new Date(Date.now() - 86400000).toISOString().slice(0, 10),
+        end_date: new Date().toISOString().slice(0, 10),
+      },
+    });
+  } catch (err) {
+    console.log(err, '---');
+    return err;
   }
 };
