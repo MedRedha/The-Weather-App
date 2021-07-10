@@ -34,11 +34,10 @@ const recentSearch = (action, value) => (dispatch) => {
   dispatch({type: action, value});
 };
 
-function WeatherSearchBar({searchHistory, recentSearch}) {
+function WeatherSearchBar({searchHistory, recentSearch, search, setSearch}) {
   const navigation = useNavigation();
   const searchRef: React.MutableRefObject<undefined> = useRef();
   const {theme}: any = useContext(ThemeContext);
-  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [newHistory, setNewHistory] = useState([]);

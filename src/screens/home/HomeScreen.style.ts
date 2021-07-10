@@ -27,7 +27,7 @@ export default StyleSheet.create<Style>({
   },
   goButton: {
     height: 50,
-    marginBottom: 50,
+    marginBottom: 40,
     width: ScreenWidth * 0.95,
     alignSelf: 'center',
     backgroundColor: colors.dark.blue,
