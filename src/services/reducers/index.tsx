@@ -1,1 +1,1 @@
-export * from './cityReducer';
+export * from './weatherReducer';

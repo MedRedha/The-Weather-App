@@ -6,7 +6,6 @@ import {colors, fontSize} from '../../shared/theme';
 interface Style {
   safeArea: ViewStyle;
   mainView: ViewStyle;
-  searchBar: ViewStyle;
   goButton: ViewStyle;
   buttonTitle: TextStyle;
   titleContainer: ViewStyle;
@@ -26,13 +25,6 @@ export default StyleSheet.create<Style>({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
-  searchBar: {
-    alignSelf: 'center',
-    width: ScreenWidth * 0.9,
-    backgroundColor: 'transparent',
-    borderBottomColor: 'transparent',
-    borderTopColor: 'transparent',
-  },
   goButton: {
     height: 50,
     marginBottom: 50,
@@ -41,8 +33,10 @@ export default StyleSheet.create<Style>({
     backgroundColor: colors.dark.blue,
   },
   titleContainer: {
+    alignSelf: 'flex-start',
     marginTop: 60,
-    marginLeft: 30,
+    marginBottom: 8,
+    marginLeft: 15,
   },
   buttonTitle: {
     fontSize: fontSize.large,

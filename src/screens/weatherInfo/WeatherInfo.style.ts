@@ -1,12 +1,14 @@
+import {ScreenWidth} from '@freakycoder/react-native-helpers';
 import {ViewStyle, StyleSheet} from 'react-native';
 
 interface Style {
-  container: ViewStyle;
+  safeArea: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
-  container: {
+  safeArea: {
     flex: 1,
+    width: ScreenWidth,
     alignItems: 'center',
     justifyContent: 'center',
   },

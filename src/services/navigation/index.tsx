@@ -11,8 +11,8 @@ import Icon from 'react-native-dynamic-vector-icons';
 
 import {ThemeContext} from '../../hooks/useTheme';
 import HomeScreen from '../../screens/home/HomeScreen';
-import SearchScreen from '../../screens/search/SearchScreen';
 import SplashScreen from '../../screens/splashScreen/SplashScreen';
+import WeatherInfo from '../../screens/weatherInfo';
 import {SCREENS} from '../constants';
 import {navigationRef, isReadyRef} from './RootNavigation';
 
@@ -43,7 +43,7 @@ const Navigation = () => {
           let iconName: string = '';
           if (route.name === SCREENS.HOME) {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === SCREENS.SEARCH) {
+          } else if (route.name === SCREENS.WEATHER_INFO) {
             iconName = focused ? 'ios-search' : 'ios-search';
           }
           return (
@@ -64,7 +64,7 @@ const Navigation = () => {
         style: {borderTopColor: theme.divider},
       }}>
       <Tab.Screen name={SCREENS.HOME} component={HomeScreen} />
-      <Tab.Screen name={SCREENS.SEARCH} component={SearchScreen} />
+      <Tab.Screen name={SCREENS.WEATHER_INFO} component={WeatherInfo} />
     </Tab.Navigator>
   );
 
@@ -123,13 +123,12 @@ const Navigation = () => {
             component={HomeScreen}
           />
           <Stack.Screen
+            name={SCREENS.WEATHER_INFO}
             options={{
-              title: 'Search Screen',
               headerShown: true,
-            }}
-            name={SCREENS.SEARCH}
-            component={SearchScreen}
-          />
+            }}>
+            {(props) => <WeatherInfo {...props} />}
+          </Stack.Screen>
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
