@@ -1,5 +1,6 @@
 import {ScreenWidth} from '@freakycoder/react-native-helpers';
 import {ViewStyle, StyleSheet, TextStyle} from 'react-native';
+
 import {colors, fontSize} from '../../shared/theme';
 
 interface Style {
@@ -8,9 +9,7 @@ interface Style {
   suggestions: ViewStyle;
   suggestionsContainer: ViewStyle;
   suggestionsInnerContainer: ViewStyle;
-  searchHistoryInnerContainer: ViewStyle;
-  searchHistory: ViewStyle;
-  searchHistoryContainer: ViewStyle;
+  removeButton: ViewStyle;
   suggestionText: TextStyle;
   historyText: TextStyle;
 }
@@ -47,7 +46,7 @@ export default StyleSheet.create<Style>({
   suggestionsInnerContainer: {
     width: '100%',
     alignItems: 'center',
-    paddingBottom: 8,
+    paddingVertical: 8,
   },
   suggestionText: {
     width: '80%',
@@ -55,28 +54,14 @@ export default StyleSheet.create<Style>({
     color: colors.dark.text,
     fontSize: fontSize.medium,
   },
-  searchHistoryInnerContainer: {
-    width: '100%',
-    alignItems: 'center',
-    paddingTop: 8,
-  },
-  searchHistory: {
-    width: '100%',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  searchHistoryContainer: {
-    width: '100%',
-    paddingLeft: 15,
-    paddingVertical: 8,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
   historyText: {
     width: '80%',
     overflow: 'hidden',
-    color: colors.dark.blue,
+    color: colors.dark.text,
     fontSize: fontSize.medium,
+  },
+  removeButton: {
+    right: 40,
+    borderWidth: 0,
   },
 });

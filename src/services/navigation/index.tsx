@@ -5,7 +5,7 @@ import {useContext} from 'react';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {SafeAreaView} from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 
@@ -126,6 +126,7 @@ const Navigation = () => {
             name={SCREENS.WEATHER_INFO}
             options={{
               headerShown: true,
+              ...TransitionPresets.SlideFromRightIOS, // OR TransitionPresets.PRESETS-ABOVE
             }}>
             {(props) => <WeatherInfo {...props} />}
           </Stack.Screen>
