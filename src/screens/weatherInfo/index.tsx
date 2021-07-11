@@ -68,8 +68,6 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
     }, 2500);
   }, []);
 
-  console.log(weather);
-
   if (isLoading) {
     return (
       <SafeAreaView
