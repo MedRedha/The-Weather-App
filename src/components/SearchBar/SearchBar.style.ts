@@ -4,6 +4,7 @@ import {ViewStyle, StyleSheet, TextStyle} from 'react-native';
 import {colors, fontSize} from '../../shared/theme';
 
 interface Style {
+  mainContainer: ViewStyle;
   main: ViewStyle;
   searchBar: ViewStyle;
   suggestions: ViewStyle;
@@ -17,6 +18,11 @@ interface Style {
 }
 
 export default StyleSheet.create<Style>({
+  mainContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   main: {
     borderRadius: 16,
     alignItems: 'center',

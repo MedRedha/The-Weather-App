@@ -25,7 +25,7 @@ export default StyleSheet.create<Style>({
   },
   titleContainer: {
     alignSelf: 'flex-start',
-    marginTop: 60,
+    marginTop: 25,
     marginBottom: 8,
     marginLeft: 15,
   },

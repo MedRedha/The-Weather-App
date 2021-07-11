@@ -2,6 +2,7 @@ export default {
   light: {
     primary: '#d7e1ec',
     gradient: ['#d7e1ec', '#ffffff'],
+    card: ['#141E30', '#243B55'],
     contrast: '#ffffff',
     darkBlue: '#1C1F26',
     divider: '#97a2a6ff',
@@ -25,6 +26,7 @@ export default {
   dark: {
     primary: '#1B1F25',
     gradient: ['#1B1F25', '#1c1c1c'],
+    card: ['#3a7bd5', '#243B55'],
     contrast: '#1c1c1c',
     darkBlue: '#1C1F26',
     divider: '#97a2a6ff',

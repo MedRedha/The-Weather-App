@@ -7,5 +7,6 @@ export default {
   mediumLarge: 26,
   veryLarge: 35,
   huge: 40,
+  veryHuge: 55,
   titan: 120,
 };

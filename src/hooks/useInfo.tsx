@@ -30,7 +30,7 @@ export const comparision = (info, history, theme) => {
 };
 
 export const clothing = (temp, theme) => {
-  if (temp > 30) {
+  if (temp > 21) {
     return (
       <Text
         style={{

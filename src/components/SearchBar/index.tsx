@@ -21,6 +21,7 @@ import styles from './SearchBar.style';
 
 const mapStateToProps = (state) => ({
   searchHistory: state.data.searchHistory,
+  weather: state.data.weather,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -35,7 +36,7 @@ const recentSearch = (action, value) => (dispatch) => {
   dispatch({type: action, value});
 };
 
-function WeatherSearchBar({searchHistory, recentSearch}) {
+function WeatherSearchBar({searchHistory, recentSearch, weather}) {
   const navigation = useNavigation();
   const searchRef: React.MutableRefObject<undefined> = useRef();
   const {theme}: any = useContext(ThemeContext);
@@ -46,7 +47,7 @@ function WeatherSearchBar({searchHistory, recentSearch}) {
 
   useEffect(() => {
     // @ts-ignore
-    searchRef?.current.focus();
+    weather.length === [] && searchRef?.current.focus();
   }, []);
 
   const onFocus = () => setFocused(true);
@@ -63,7 +64,7 @@ function WeatherSearchBar({searchHistory, recentSearch}) {
       const res = await axios.get(
         GOOGLE_PLACES_API + `${text}&key=${GOOGLE_PLACES_API_KEY}`
       );
-      setSuggestions(res.data.predictions);
+      setSuggestions(res.data.predictions.slice(0, 4));
     } catch (error) {
       return error;
     }
@@ -79,7 +80,7 @@ function WeatherSearchBar({searchHistory, recentSearch}) {
   const onPress = (item) => {
     // recentSearch(SEARCH_HISTORY, []);
     recentSearch(SEARCH_HISTORY, [
-      item?.structured_formatting?.main_text,
+      item?.description,
       ...searchHistory.slice(0, 3),
     ]);
     onCityPress(item?.structured_formatting?.main_text);
@@ -93,8 +94,12 @@ function WeatherSearchBar({searchHistory, recentSearch}) {
   };
 
   return (
-    <View
-      style={{flex: 1, justifyContent: 'space-between', alignItems: 'center'}}>
+    <Animatable.View
+      animation='fadeIn'
+      easing='ease-in'
+      useNativeDriver
+      iterationCount={1}
+      style={styles.mainContainer}>
       <View
         style={{
           ...styles.main,
@@ -138,7 +143,12 @@ function WeatherSearchBar({searchHistory, recentSearch}) {
                   paddingVertical: searchHistory.length > 0 && 8,
                 }}>
                 {searchHistory.map((item) => (
-                  <View style={styles.suggestions}>
+                  <Animatable.View
+                    animation='fadeIn'
+                    easing='linear'
+                    useNativeDriver
+                    iterationCount={1}
+                    style={styles.suggestions}>
                     <Icon
                       name='ios-time-outline'
                       size={18}
@@ -159,7 +169,7 @@ function WeatherSearchBar({searchHistory, recentSearch}) {
                       onPress={() => onRemovePress(item)}>
                       Remove
                     </Button>
-                  </View>
+                  </Animatable.View>
                 ))}
               </View>
             </>
@@ -175,7 +185,12 @@ function WeatherSearchBar({searchHistory, recentSearch}) {
             />
             <View style={styles.suggestionsInnerContainer}>
               {suggestions.map((item) => (
-                <View style={styles.suggestions}>
+                <Animatable.View
+                  animation='fadeIn'
+                  easing='linear'
+                  useNativeDriver
+                  iterationCount={1}
+                  style={styles.suggestions}>
                   <Icon
                     name='ios-search'
                     size={18}
@@ -189,29 +204,31 @@ function WeatherSearchBar({searchHistory, recentSearch}) {
                       {item.description}
                     </Text>
                   </TouchableOpacity>
-                </View>
+                </Animatable.View>
               ))}
             </View>
           </>
         )}
       </View>
-      <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={150}>
-        <Animatable.View
-          animation={search !== '' && 'fadeIn'}
-          easing='ease'
-          useNativeDriver
-          style={{alignItems: 'flex-end'}}
-          iterationCount={1}>
-          <Button
-            rounded
-            style={{...styles.goButton, display: search === '' && 'none'}}
-            innerStyle={styles.buttonTitle}
-            onPress={() => onPress(suggestions[0])}>
-            Go
-          </Button>
-        </Animatable.View>
-      </KeyboardAvoidingView>
-    </View>
+      {weather === [] && (
+        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={150}>
+          <Animatable.View
+            animation={search !== '' && 'fadeIn'}
+            easing='ease'
+            useNativeDriver
+            style={{alignItems: 'flex-end'}}
+            iterationCount={1}>
+            <Button
+              rounded
+              style={{...styles.goButton, display: search === '' && 'none'}}
+              innerStyle={styles.buttonTitle}
+              onPress={() => onPress(suggestions[0])}>
+              Go
+            </Button>
+          </Animatable.View>
+        </KeyboardAvoidingView>
+      )}
+    </Animatable.View>
   );
 }
 

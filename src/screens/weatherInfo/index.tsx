@@ -36,6 +36,7 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
   const [temp, setTemp] = useState('');
   const [degree, setDegree] = useState('\u00B0C');
   const {city} = route?.params;
+  const {error, history, info} = weather;
   navigation.setOptions({
     title: city,
     headerRight: () => (
@@ -53,12 +54,13 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
       </Button>
     ),
   });
-  const {error, history, info} = weather;
 
   useEffect(() => {
+    console.log('FETCHING -->', city);
     getCurrentWeather(city);
     setTimeout(() => setIsLoading(false), 1500);
     setTemp(`${Math.round(info?.data[0]?.temp)}`);
+    setDegree('\u00B0C');
   }, []);
 
   if (isLoading) {
@@ -119,7 +121,7 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
             Today is {comparision(info, history, theme)} than yesterday
           </Text>
           <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
-            Wear {clothing(info?.data[0]?.temp, theme)}
+            Wear {clothing(Math.round(info?.data[0]?.temp), theme)}
           </Text>
         </View>
       </View>
