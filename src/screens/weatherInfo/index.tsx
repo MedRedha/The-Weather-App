@@ -3,9 +3,11 @@ import {useContext, useEffect, useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 // @ts-ignore
+import LottieView from 'lottie-react-native';
+// @ts-ignore
 import moment from 'moment';
 import {SafeAreaView, Text, View} from 'react-native';
-import {Spinner, Button} from 'react-native-ios-kit';
+import {Button} from 'react-native-ios-kit';
 import Feather from 'react-native-vector-icons/Feather';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -58,7 +60,7 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
   useEffect(() => {
     console.log('FETCHING -->', city);
     getCurrentWeather(city);
-    setTimeout(() => setIsLoading(false), 1500);
+    setTimeout(() => setIsLoading(false), 2000);
     setTemp(`${Math.round(info?.data[0]?.temp)}`);
     setDegree('\u00B0C');
   }, []);
@@ -67,12 +69,16 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
     return (
       <SafeAreaView
         style={{...styles.safeArea, backgroundColor: theme.primary}}>
-        <Spinner
-          animating
-          size='large'
-          theme={{
-            primaryColor: theme.lightGray,
+        <LottieView
+          source={require('../../assets/animations/loading.json')}
+          style={{
+            width: 250,
+            alignSelf: 'center',
           }}
+          autoPlay
+          speed={1.5}
+          autoSize
+          loop
         />
       </SafeAreaView>
     );

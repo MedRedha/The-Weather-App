@@ -7,13 +7,13 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import {connect} from 'react-redux';
 
-import * as Animatable from 'react-native-animatable';
+import RedhaCard from '../../components/RedhaCard/RedhaCard';
 import WeatherSearchBar from '../../components/SearchBar';
 import {ThemeContext} from '../../hooks/useTheme';
 import styles from './HomeScreen.style';
-import RedhaCard from '../../components/RedhaCard/RedhaCard';
 
 const mapStateToProps = (state) => ({
   hasCity: state.data.hasCity,

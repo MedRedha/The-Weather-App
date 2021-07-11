@@ -1,19 +1,18 @@
 import * as React from 'react';
 import {useContext, useEffect, useState} from 'react';
 
+import {useNavigation} from '@react-navigation/native';
 // @ts-ignore
 import LottieView from 'lottie-react-native';
-import {Text, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import BouncyView from 'react-native-bouncy-touchable';
 import LinearGradient from 'react-native-linear-gradient';
 import {connect} from 'react-redux';
 
 import {ThemeContext} from '../../hooks/useTheme';
+import {SCREENS} from '../../services/constants';
 import {fontSize} from '../../shared/theme';
 import styles from './RedhaCard.style';
-import {useNavigation} from '@react-navigation/native';
-import {SCREENS} from '../../services/constants';
 
 const mapStateToProps = (state) => ({
   weather: state.data.weather,
@@ -32,7 +31,9 @@ function RedhaCard({weather}) {
   }, []);
 
   const onCardPress = () => {
-    navigation.navigate(SCREENS.WEATHER_INFO, {city: info?.data[0]?.city_name});
+    navigation.navigate(SCREENS.WEATHER_INFO, {
+      city: info?.data[0]?.city_name,
+    });
   };
 
   return (
@@ -50,9 +51,7 @@ function RedhaCard({weather}) {
         easing='linear'
         useNativeDriver
         iterationCount={1}>
-        <BouncyView
-          delay={45}
-          scale={1.1}
+        <TouchableOpacity
           onPress={() => onCardPress()}
           style={{...styles.card, shadowColor: theme.shadow}}>
           <LinearGradient colors={theme.card} style={styles.container}>
@@ -100,7 +99,7 @@ function RedhaCard({weather}) {
               />
             </Animatable.View>
           </LinearGradient>
-        </BouncyView>
+        </TouchableOpacity>
       </Animatable.View>
     </View>
   );
