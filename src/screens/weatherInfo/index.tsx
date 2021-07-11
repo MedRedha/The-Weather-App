@@ -50,7 +50,9 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
         style={styles.switcher}
         innerStyle={styles.switcherTitle}
         onPress={() => {
-          setTemp(convert(temp, degree));
+          setTemp(
+            convert(`${temp || Math.round(info?.data[0]?.temp)}`, degree)
+          );
           setDegree(degree === '\u00B0C' ? '\u00B0F' : '\u00B0C');
         }}>
         {'\u00B0C' + ' | ' + '\u00B0F'}
@@ -59,16 +61,13 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
   });
 
   useEffect(() => {
+    console.log('FIRST USE EFFECT');
     getCurrentWeather(city);
     setTimeout(() => {
+      setDegree('\u00B0C');
       setIsLoading(false);
-    }, 4000);
+    }, 2500);
   }, []);
-
-  useEffect(() => {
-    setTemp(`${Math.round(info?.data[0]?.temp)}`);
-    setDegree('\u00B0C');
-  }, [isLoading]);
 
   if (isLoading) {
     return (
@@ -125,7 +124,9 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
             fontSize: fontSize.titan,
             fontFamily: 'ProductSans-Thin',
           }}>
-          {temp + degree}
+          {temp === ''
+            ? Math.round(info?.data[0]?.temp) + degree
+            : temp + degree}
         </Text>
         <View style={{alignItems: 'center'}}>
           <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
