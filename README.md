@@ -20,7 +20,8 @@
 </p>
 
 <p align="center">
-	<img width="200" align="center" src="https://i.imgur.com/7GucN5r.png" alt="Redha Boilerplate Logo">
+	<img width="200" align="center" src="https://user-images.githubusercontent.com/49821074/125210899-d9b48d80-e2a2-11eb-8630-8c99e1dd234f.png" />  
+	<img width="200" align="center" src="https://user-images.githubusercontent.com/49821074/125210819-63179000-e2a2-11eb-99af-736cd1b42363.png" />  	<img width="200" align="center" src="https://user-images.githubusercontent.com/49821074/125210831-7a567d80-e2a2-11eb-9820-f2f263c8238e.png" />  	<img width="200" align="center" src="https://user-images.githubusercontent.com/49821074/125210834-7c204100-e2a2-11eb-8442-c5a438e1a93b.png" />  	<img width="200" align="center" src="https://user-images.githubusercontent.com/49821074/125210835-7cb8d780-e2a2-11eb-96a7-55dfe2506448.png" />  	<img width="200" align="center" src="https://user-images.githubusercontent.com/49821074/125210836-7d516e00-e2a2-11eb-9b34-a5677549f504.png" />  	<img width="200" align="center" src="https://user-images.githubusercontent.com/49821074/125210837-7dea0480-e2a2-11eb-857a-78afd890dc30.png" />	
 </p>
 
 </br>
