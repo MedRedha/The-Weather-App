@@ -47,7 +47,7 @@ function WeatherSearchBar({searchHistory, recentSearch, weather}) {
 
   useEffect(() => {
     // @ts-ignore
-    weather.length === [] && searchRef?.current.focus();
+    Object.keys(weather.info).length === 0 && searchRef?.current.focus();
   }, []);
 
   const onFocus = () => setFocused(true);
@@ -210,7 +210,7 @@ function WeatherSearchBar({searchHistory, recentSearch, weather}) {
           </>
         )}
       </View>
-      {weather === [] && (
+      {Object.keys(weather.info).length === 0 && (
         <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={150}>
           <Animatable.View
             animation={search !== '' && 'fadeIn'}

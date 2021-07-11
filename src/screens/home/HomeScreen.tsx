@@ -16,10 +16,10 @@ import {ThemeContext} from '../../hooks/useTheme';
 import styles from './HomeScreen.style';
 
 const mapStateToProps = (state) => ({
-  hasCity: state.data.hasCity,
+  weather: state.data.weather,
 });
 
-function HomeScreen() {
+function HomeScreen({weather}) {
   const {theme}: any = useContext(ThemeContext);
 
   return (
@@ -43,7 +43,7 @@ function HomeScreen() {
             <WeatherSearchBar />
           </View>
         </View>
-        <RedhaCard />
+        {Object.keys(weather?.info)?.length > 0 && <RedhaCard />}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
