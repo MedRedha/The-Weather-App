@@ -44,7 +44,7 @@ function HomeScreen({weather}) {
             <WeatherSearchBar />
           </View>
         </View>
-        {lastFetch !== null || (error !== null && <RedhaCard />)}
+        {(lastFetch !== null || error !== null) && <RedhaCard />}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
