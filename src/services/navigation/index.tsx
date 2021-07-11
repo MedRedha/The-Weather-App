@@ -126,6 +126,16 @@ const Navigation = () => {
             name={SCREENS.WEATHER_INFO}
             options={{
               headerShown: true,
+              headerTitleStyle: {
+                fontWeight: '100',
+                fontSize: 25,
+                fontFamily: 'ProductSans-Regular',
+                color: theme.text,
+              },
+              headerBackTitleStyle: {
+                color: theme.blue,
+              },
+              headerTintColor: theme.blue,
               ...TransitionPresets.SlideFromRightIOS, // OR TransitionPresets.PRESETS-ABOVE
             }}>
             {(props) => <WeatherInfo {...props} />}

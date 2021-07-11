@@ -6,13 +6,13 @@ import {
 } from '../constants';
 
 const initialState = {
-  lastFetch: null,
   searchHistory: [],
   weather: {
     isLoading: false,
     info: {},
     history: {},
     error: null,
+    lastFetch: null,
   },
 };
 
@@ -34,12 +34,12 @@ function weatherReducer(state = initialState, action) {
     case WEATHER_FETCH_SUCCESS:
       return {
         ...state,
-        lastFetch: new Date(),
         weather: {
           isLoading: false,
           info: action.info,
           history: action.history,
           error: null,
+          lastFetch: new Date(),
         },
       };
     case WEATHER_FETCH_ERROR:

@@ -54,6 +54,7 @@
     "no-else-return": "off",
     "no-underscore-dangle": "off",
     "no-nested-ternary": "off",
+    "no-self-compare": "off",
     "global-require": "off",
     "wrap-iife": "off",
     "prefer-template": "off",

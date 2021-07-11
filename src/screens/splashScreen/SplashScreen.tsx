@@ -13,33 +13,17 @@ import styles from './SplashScreen.style';
 
 const mapStateToProps = (state) => ({
   weather: state.data.weather,
-  lastFetch: state.data.lastFetch,
+  lastFetch: state.data.weather.lastFetch,
 });
 
-function SplashScreen({weather, lastFetch}) {
+function SplashScreen() {
   const {theme}: any = useContext(ThemeContext);
   const navigation = useNavigation();
 
   useEffect(() => {
     setTimeout(() => {
-      if (lastFetch) {
-        const now: any = new Date();
-        const diffTime = Math.abs(lastFetch - now);
-        const diffMin = Math.ceil(diffTime / (1000 * 60));
-
-        if (diffMin < 60) {
-          // @ts-ignore
-          navigation.replace(SCREENS.WEATHER_INFO);
-        } else {
-          // @ts-ignore
-          navigation.replace(SCREENS.WEATHER_INFO, {
-            city: weather?.info?.data[0]?.city_name,
-          });
-        }
-      } else {
-        // @ts-ignore
-        navigation.replace(SCREENS.HOME);
-      }
+      // @ts-ignore
+      navigation.replace(SCREENS.HOME);
     }, 3000);
   }, []);
 

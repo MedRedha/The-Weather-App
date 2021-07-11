@@ -3,13 +3,47 @@ import {ViewStyle, StyleSheet} from 'react-native';
 
 interface Style {
   safeArea: ViewStyle;
+  dateAndTime: ViewStyle;
+  centerInfo: ViewStyle;
+  dividerContainer: ViewStyle;
+  sunTime: ViewStyle;
+  sunInfo: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
   safeArea: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
     width: ScreenWidth,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  dateAndTime: {
+    height: 80,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  centerInfo: {
+    height: 250,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  dividerContainer: {
+    width: '100%',
+    height: 90,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  sunTime: {
+    width: '80%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  sunInfo: {
+    height: 100,
+    width: '50%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

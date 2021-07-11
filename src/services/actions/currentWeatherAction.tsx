@@ -22,7 +22,7 @@ export const getCurrentWeather = (city) => async (dispatch) => {
 
     dispatch({type: WEATHER_FETCH_SUCCESS, info, history});
   } catch (e) {
-    dispatch({type: WEATHER_FETCH_ERROR, value: true});
+    dispatch({type: WEATHER_FETCH_ERROR, value: e.data});
   }
 };
 const getWeatherInfo = (city) => {
@@ -34,7 +34,7 @@ const getWeatherInfo = (city) => {
       },
     });
   } catch (err) {
-    return err;
+    console.log('GET WEATHER ERROR: ', err.data);
   }
 };
 
@@ -49,7 +49,6 @@ const getWeatherHistory = (city) => {
       },
     });
   } catch (err) {
-    console.log(err, '---');
-    return err;
+    console.log('WEATHER HISTORY ERROR: ', err.data);
   }
 };
