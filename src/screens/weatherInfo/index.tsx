@@ -15,6 +15,7 @@ import {bindActionCreators} from 'redux';
 import {clothing, comparision, convert} from '../../hooks/useInfo';
 import {ThemeContext} from '../../hooks/useTheme';
 import {getCurrentWeather} from '../../services/actions';
+import {WEATHER_FETCH_START} from '../../services/constants';
 import {fontSize} from '../../shared/theme';
 import styles from './WeatherInfo.style';
 
@@ -26,19 +27,20 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       isLoading: (action, value) => dispatch({type: action, value}),
+      refresh: (action, value) => dispatch({type: action, value}),
       getCurrentWeather,
     },
     dispatch
   );
 
-function WeatherInfo({route, weather, getCurrentWeather}) {
+function WeatherInfo({route, weather, getCurrentWeather, refresh}) {
   const navigation = useNavigation();
   const {theme}: any = useContext(ThemeContext);
   const [isLoading, setIsLoading] = useState(true);
   const [temp, setTemp] = useState('');
   const [degree, setDegree] = useState('\u00B0C');
   const {city} = route?.params;
-  const {error, history, info, lastFetch} = weather;
+  const {error, history, info} = weather;
   navigation.setOptions({
     title: city,
     headerRight: () => (
@@ -59,11 +61,17 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
 
   useEffect(() => {
     console.log('FETCHING -->', city);
+    refresh(WEATHER_FETCH_START, {});
     getCurrentWeather(city);
-    setTimeout(() => setIsLoading(false), 2000);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3500);
+  }, []);
+
+  useEffect(() => {
     setTemp(`${Math.round(info?.data[0]?.temp)}`);
     setDegree('\u00B0C');
-  }, []);
+  }, [isLoading]);
 
   if (isLoading) {
     return (

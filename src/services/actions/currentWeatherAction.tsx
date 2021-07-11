@@ -13,7 +13,7 @@ import {
 } from '../constants';
 
 export const getCurrentWeather = (city) => async (dispatch) => {
-  dispatch({type: WEATHER_FETCH_START});
+  dispatch({type: WEATHER_FETCH_START, value: {}});
   try {
     const [{data: info}, {data: history}] = await Promise.all([
       getWeatherInfo(city),

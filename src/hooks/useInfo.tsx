@@ -30,6 +30,7 @@ export const comparision = (info, history, theme) => {
 };
 
 export const clothing = (temp, theme) => {
+  console.log(temp);
   if (temp > 21) {
     return (
       <Text
