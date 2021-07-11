@@ -38,7 +38,7 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
   const [temp, setTemp] = useState('');
   const [degree, setDegree] = useState('\u00B0C');
   const {city} = route?.params;
-  const {error, history, info} = weather;
+  const {error, history, info, lastFetch} = weather;
   navigation.setOptions({
     title: city,
     headerRight: () => (

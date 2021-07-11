@@ -44,10 +44,11 @@ function WeatherSearchBar({searchHistory, recentSearch, weather}) {
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [focused, setFocused] = React.useState(false);
+  const {lastFetch} = weather;
 
   useEffect(() => {
     // @ts-ignore
-    Object.keys(weather.info).length === 0 && searchRef?.current.focus();
+    lastFetch === null && searchRef?.current.focus();
   }, []);
 
   const onFocus = () => setFocused(true);
@@ -201,7 +202,7 @@ function WeatherSearchBar({searchHistory, recentSearch, weather}) {
                     style={styles.suggestionsContainer}
                     onPress={() => onPress(item)}>
                     <Text numberOfLines={1} style={styles.suggestionText}>
-                      {item.description}
+                      {item?.description}
                     </Text>
                   </TouchableOpacity>
                 </Animatable.View>
@@ -210,8 +211,8 @@ function WeatherSearchBar({searchHistory, recentSearch, weather}) {
           </>
         )}
       </View>
-      {Object.keys(weather.info).length === 0 && (
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={150}>
+      {lastFetch === null && (
+        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={120}>
           <Animatable.View
             animation={search !== '' && 'fadeIn'}
             easing='ease'
