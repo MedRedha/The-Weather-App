@@ -5,12 +5,12 @@ import {useNavigation} from '@react-navigation/native';
 // @ts-ignore
 import moment from 'moment';
 import {SafeAreaView, Text, View} from 'react-native';
-import {Spinner} from 'react-native-ios-kit';
+import {Spinner, Button} from 'react-native-ios-kit';
 import Feather from 'react-native-vector-icons/Feather';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {clothing, comparision} from '../../hooks/useInfo';
+import {clothing, comparision, convert} from '../../hooks/useInfo';
 import {ThemeContext} from '../../hooks/useTheme';
 import {getCurrentWeather} from '../../services/actions';
 import {fontSize} from '../../shared/theme';
@@ -33,13 +33,32 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
   const navigation = useNavigation();
   const {theme}: any = useContext(ThemeContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [temp, setTemp] = useState('');
+  const [degree, setDegree] = useState('\u00B0C');
   const {city} = route?.params;
-  navigation.setOptions({title: city});
+  navigation.setOptions({
+    title: city,
+    headerRight: () => (
+      <Button
+        inline
+        centered
+        rounded
+        style={styles.switcher}
+        innerStyle={styles.switcherTitle}
+        onPress={() => {
+          setTemp(convert(temp, degree));
+          setDegree(degree === '\u00B0C' ? '\u00B0F' : '\u00B0C');
+        }}>
+        {'\u00B0C' + ' | ' + '\u00B0F'}
+      </Button>
+    ),
+  });
   const {error, history, info} = weather;
 
   useEffect(() => {
     getCurrentWeather(city);
     setTimeout(() => setIsLoading(false), 1500);
+    setTemp(`${Math.round(info?.data[0]?.temp)}`);
   }, []);
 
   if (isLoading) {
@@ -61,7 +80,9 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
     return (
       <SafeAreaView
         style={{...styles.safeArea, backgroundColor: theme.primary}}>
-        <Text style={{color: theme.text, fontSize: 26}}>{error}</Text>
+        <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
+          {error}
+        </Text>
       </SafeAreaView>
     );
   }
@@ -91,19 +112,19 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
             fontSize: fontSize.titan,
             fontFamily: 'ProductSans-Thin',
           }}>
-          {Math.round(info?.data[0]?.temp) + '\u00B0C'}
+          {temp + degree}
         </Text>
         <View style={{alignItems: 'center'}}>
-          <Text style={{color: theme.text, fontSize: 26}}>
+          <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
             Today is {comparision(info, history, theme)} than yesterday
           </Text>
-          <Text style={{color: theme.text, fontSize: 26}}>
+          <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
             Wear {clothing(info?.data[0]?.temp, theme)}
           </Text>
         </View>
       </View>
       <View style={styles.dividerContainer}>
-        <Text style={{color: theme.text, fontSize: 26}}>
+        <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
           {info?.data[0]?.weather?.description}
         </Text>
         <View
@@ -113,20 +134,20 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
             backgroundColor: theme.lightGray,
           }}
         />
-        <Text style={{color: theme.text, fontSize: 26}}>
+        <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
           Wind speed:{' '}
           {Math.round(Number(info?.data[0]?.wind_spd) * 3.6) + ' km/h'}
         </Text>
       </View>
       <View style={styles.sunTime}>
         <View style={styles.sunInfo}>
-          <Text style={{color: theme.text, fontSize: 26}}>
+          <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
             {info?.data[0]?.sunrise}
           </Text>
           <Feather name='sunrise' color={theme.yellow} size={50} />
         </View>
         <View style={styles.sunInfo}>
-          <Text style={{color: theme.text, fontSize: 26}}>
+          <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
             {info?.data[0]?.sunset}
           </Text>
           <Feather name='sunset' color={theme.yellow} size={50} />

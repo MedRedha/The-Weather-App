@@ -76,3 +76,11 @@ export const clothing = (temp, theme) => {
     );
   }
 };
+
+export function convert(temp, degree) {
+  if (degree === '\u00B0C') {
+    return `${Math.round((temp * 9) / 5 + 32)}`;
+  } else {
+    return `${Math.round(((temp - 32) * 5) / 9)}`;
+  }
+}

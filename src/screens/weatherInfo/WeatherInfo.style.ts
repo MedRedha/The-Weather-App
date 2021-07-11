@@ -1,5 +1,7 @@
 import {ScreenWidth} from '@freakycoder/react-native-helpers';
-import {ViewStyle, StyleSheet} from 'react-native';
+import {ViewStyle, StyleSheet, TextStyle} from 'react-native';
+
+import {fontSize} from '../../shared/theme';
 
 interface Style {
   safeArea: ViewStyle;
@@ -8,6 +10,8 @@ interface Style {
   dividerContainer: ViewStyle;
   sunTime: ViewStyle;
   sunInfo: ViewStyle;
+  switcher: ViewStyle;
+  switcherTitle: TextStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -45,5 +49,12 @@ export default StyleSheet.create<Style>({
     width: '50%',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  switcher: {
+    marginRight: 20,
+    borderWidth: 0,
+  },
+  switcherTitle: {
+    fontSize: fontSize.large,
   },
 });
