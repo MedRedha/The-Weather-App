@@ -34,7 +34,7 @@ const getWeatherInfo = (city) => {
       },
     });
   } catch (err) {
-    console.log('GET WEATHER ERROR: ', err.data);
+    console.log('GET WEATHER ERROR: ', err);
   }
 };
 
@@ -49,6 +49,6 @@ const getWeatherHistory = (city) => {
       },
     });
   } catch (err) {
-    console.log('WEATHER HISTORY ERROR: ', err.data);
+    console.log('WEATHER HISTORY ERROR: ', err);
   }
 };

@@ -21,7 +21,7 @@ const mapStateToProps = (state) => ({
 
 function HomeScreen({weather}) {
   const {theme}: any = useContext(ThemeContext);
-  const {lastFetch} = weather;
+  const {lastFetch, error} = weather;
 
   return (
     <TouchableWithoutFeedback
@@ -44,7 +44,7 @@ function HomeScreen({weather}) {
             <WeatherSearchBar />
           </View>
         </View>
-        {lastFetch !== null && <RedhaCard />}
+        {lastFetch !== null || (error !== null && <RedhaCard />)}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

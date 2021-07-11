@@ -61,13 +61,14 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
   });
 
   useEffect(() => {
-    console.log('FIRST USE EFFECT');
     getCurrentWeather(city);
     setTimeout(() => {
       setDegree('\u00B0C');
       setIsLoading(false);
     }, 2500);
   }, []);
+
+  console.log(weather);
 
   if (isLoading) {
     return (
@@ -88,12 +89,23 @@ function WeatherInfo({route, weather, getCurrentWeather}) {
     );
   }
 
-  if (error) {
+  if (error !== null) {
     return (
       <SafeAreaView
-        style={{...styles.safeArea, backgroundColor: theme.primary}}>
-        <Text style={{color: theme.text, fontSize: fontSize.mediumLarge}}>
-          {error}
+        style={{
+          ...styles.safeArea,
+          backgroundColor: theme.primary,
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: 30,
+        }}>
+        <Text
+          style={{
+            color: theme.text,
+            fontSize: fontSize.mediumLarge,
+          }}>
+          Oops, an error occurred while trying to fetch the data. Please try
+          again!
         </Text>
       </SafeAreaView>
     );
